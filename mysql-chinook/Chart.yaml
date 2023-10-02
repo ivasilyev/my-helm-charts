@@ -1,0 +1,4 @@
+apiVersion: v2
+name: mysql-chinook
+description: A Helm chart to deploy the MySQL server with the Chinook sample database
+version: 0.1.0
