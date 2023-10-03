@@ -2,9 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-{{ .Values.mysql.app_name }}-service
+  labels:
+    version: {{ .Chart.Version }}
 spec:
   selector:
     app: {{ .Values.mysql.app_name }}
   ports:
-    - protocol: {{ .Values.mysql.serverProtocol }}
+      name: {{ .Chart.Name }}
+      protocol: {{ .Values.mysql.serverProtocol }}
       port: {{ .Values.mysql.serverPort }}
+      targetPort: {{ .Values.mysql.serverPort }}
+      nodePort: {{ .Values.mysql.nodePort }}
+  type: NodePort

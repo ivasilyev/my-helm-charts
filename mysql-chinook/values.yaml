@@ -1,8 +1,9 @@
 mysql:
-  app_name: mysql
+  app_name: mysql-app
   image: mysql:latest
   rootPassword: mysecretpassword
   serverPort: 3306
+  nodePort: 33066
   serverProtocol: TCP
   dbName: chinook
   dbUser: chinook
