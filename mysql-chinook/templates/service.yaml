@@ -7,4 +7,4 @@ spec:
     app: {{ .Values.mysql.app_name }}
   ports:
     - protocol: {{ .Values.mysql.serverProtocol }}
-      port: {{ .Values.mysql.dbPassword }}
+      port: {{ .Values.mysql.serverPort }}
