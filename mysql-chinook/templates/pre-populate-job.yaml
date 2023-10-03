@@ -19,7 +19,12 @@ spec:
                   -o /tmp/db.sql \
                   'https://raw.githubusercontent.com/lerocha/chinook-database/master/ChinookDatabase/DataSources/Chinook_MySql.sql' ;
 
-              mysql --port={{ .Values.mysql.serverPort }} --user=root --password={{ .Values.mysql.rootPassword }} < /tmp/db.sql ;
+              mysql \
+                  --host={{ .Values.mysql.app_name }} \
+                  --port={{ .Values.mysql.serverPort }} \
+                  --user=root \
+                  --password={{ .Values.mysql.rootPassword }} \
+              < /tmp/db.sql ;
               "
           ]
       restartPolicy: Never
