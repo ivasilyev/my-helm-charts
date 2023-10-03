@@ -42,7 +42,7 @@ spec:
           ]
           env:
             - name: MYSQL_TCP_PORT
-              value: {{ .Values.mysql.serverPort }}
+              value: "{{ .Values.mysql.serverPort }}"
             - name: MYSQL_ROOT_PASSWORD
               value: {{ .Values.mysql.rootPassword }}
             - name: MYSQL_USER
