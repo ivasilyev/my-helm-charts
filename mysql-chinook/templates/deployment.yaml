@@ -20,7 +20,7 @@ spec:
           image: {{ .Values.mysql.image }}
           ports:
             - containerPort: {{ .Values.mysql.serverPort }}
-              name: {{ .Chart.Name }}-port
+              name: {{ .Chart.Name }}-p
           command: [
               "bash",
               "-c",
