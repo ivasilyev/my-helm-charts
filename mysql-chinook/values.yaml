@@ -3,7 +3,7 @@ mysql:
   image: mysql:latest
   rootPassword: mysecretpassword
   serverPort: 3306
-  nodePort: 13066
+  nodePort: 30660
   serverProtocol: TCP
   dbName: chinook
   dbUser: chinook
