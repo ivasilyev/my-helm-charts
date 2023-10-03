@@ -18,17 +18,6 @@ spec:
       containers:
         - name: {{ .Chart.Name }}-deployment-container
           image: {{ .Values.mysql.image }}
-          env:
-            - name: MYSQL_TCP_PORT
-              value: {{ .Values.mysql.serverPort }}
-            - name: MYSQL_ROOT_PASSWORD
-              value: {{ .Values.mysql.rootPassword }}
-            - name: MYSQL_USER
-              value: {{ .Values.mysql.dbUser }}
-            - name: MYSQL_PASSWORD
-              value: {{ .Values.mysql.dbPassword }}
-            - name: MYSQL_DATABASE
-              value: {{ .Values.mysql.dbName }}
           ports:
             - containerPort: {{ .Values.mysql.serverPort }}
               name: {{ .Chart.Name }}-port
@@ -51,3 +40,14 @@ spec:
               mysql --user=root --password=password < /tmp/db.sql ;
               "
           ]
+          env:
+            - name: MYSQL_TCP_PORT
+              value: {{ .Values.mysql.serverPort }}
+            - name: MYSQL_ROOT_PASSWORD
+              value: {{ .Values.mysql.rootPassword }}
+            - name: MYSQL_USER
+              value: {{ .Values.mysql.dbUser }}
+            - name: MYSQL_PASSWORD
+              value: {{ .Values.mysql.dbPassword }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.mysql.dbName }}
