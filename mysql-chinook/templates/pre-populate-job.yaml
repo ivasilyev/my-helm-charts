@@ -12,19 +12,11 @@ spec:
               "bash",
               "-c",
               "
-              cat <<EOF | tee /tmp/reset.sql
-              FLUSH PRIVILEGES ;
-              ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' ;
-              EOF;
-
-              mysqld --initialize --init-file=/tmp/reset.sql ;
-              mysqld --port=3306 &
-
               curl -fsSL \
                   -o /tmp/db.sql \
                   'https://raw.githubusercontent.com/lerocha/chinook-database/master/ChinookDatabase/DataSources/Chinook_MySql.sql' ;
 
-              mysql --user=root --password=password < /tmp/db.sql ;
+              mysql --user=root --password={{ .Values.mysql.rootPassword }} < /tmp/db.sql ;
               "
           ]
       restartPolicy: Never
