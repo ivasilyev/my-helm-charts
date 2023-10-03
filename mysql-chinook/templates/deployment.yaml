@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Values.mysql.app_name }}
+        app: {{ .Chart.Name }}
     spec:
       containers:
         - name: {{ .Chart.Name }}-deployment-container
