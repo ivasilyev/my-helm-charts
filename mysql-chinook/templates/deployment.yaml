@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-{{ .Values.mysql.app_name }}
+  name: {{ .Chart.Name }}-deployment
   labels:
     app: {{ .Chart.Name }}
     version: {{ .Chart.Version }}
@@ -9,23 +9,45 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.mysql.app_name }}
+      app: {{ .Chart.Name }}
   template:
     metadata:
       labels:
         app: {{ .Values.mysql.app_name }}
     spec:
       containers:
-        - name: {{ .Values.mysql.app_name }}
+        - name: {{ .Chart.Name }}-deployment-container
           image: {{ .Values.mysql.image }}
           env:
+            - name: MYSQL_TCP_PORT
+              value: {{ .Values.mysql.serverPort }}
             - name: MYSQL_ROOT_PASSWORD
               value: {{ .Values.mysql.rootPassword }}
-            - name: MYSQL_DATABASE
-              value: {{ .Values.mysql.dbName }}
             - name: MYSQL_USER
               value: {{ .Values.mysql.dbUser }}
             - name: MYSQL_PASSWORD
               value: {{ .Values.mysql.dbPassword }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.mysql.dbName }}
           ports:
             - containerPort: {{ .Values.mysql.serverPort }}
+              name: {{ .Chart.Name }}-port
+          command: [
+              "bash",
+              "-c",
+              "
+              cat <<EOF | tee /tmp/reset.sql
+              FLUSH PRIVILEGES ;
+              ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' ;
+              EOF;
+
+              mysqld --initialize --init-file=/tmp/reset.sql ;
+              mysqld --port=3306 &
+
+              curl -fsSL \
+                  -o /tmp/db.sql \
+                  https://raw.githubusercontent.com/lerocha/chinook-database/master/ChinookDatabase/DataSources/Chinook_MySql.sql ;
+
+              mysql --user=root --password=password < /tmp/db.sql ;
+              "
+          ]
