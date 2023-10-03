@@ -3,7 +3,8 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-{{ .Values.mysql.app_name }}
   labels:
-    app: {{ .Values.mysql.app_name }}
+    app: {{ .Chart.Name }}
+    version: {{ .Chart.Version }}
 spec:
   replicas: 1
   selector:

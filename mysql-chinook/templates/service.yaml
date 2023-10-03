@@ -3,12 +3,13 @@ kind: Service
 metadata:
   name: {{ .Release.Name }}-{{ .Values.mysql.app_name }}-service
   labels:
+    app: {{ .Chart.Name }}
     version: {{ .Chart.Version }}
 spec:
   selector:
     app: {{ .Values.mysql.app_name }}
   ports:
-      name: {{ .Chart.Name }}
+    - name: {{ .Chart.Name }}
       protocol: {{ .Values.mysql.serverProtocol }}
       port: {{ .Values.mysql.serverPort }}
       targetPort: {{ .Values.mysql.serverPort }}
