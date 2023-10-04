@@ -5,7 +5,7 @@ metadata:
 data:
   script-1.sh: |
     #!/usr/bin/bash
-    cat <<EOF | tee /tmp/reset.sql
+    cat <<EOF > /tmp/reset.sql
     FLUSH PRIVILEGES ;
     ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' ;
     EOF
@@ -15,12 +15,13 @@ data:
     echo "Database initialized" ;
 
     mysqld --port=3306 &
+    sleep 5 ;
 
     curl -fsSL \
         -o /tmp/db.sql \
         https://raw.githubusercontent.com/lerocha/chinook-database/master/ChinookDatabase/DataSources/Chinook_MySql.sql ;
     echo "Population script downloaded"
 
-    mysql --user=root --password=password < /tmp/db.sql ;
+    mysql --port=3306 --user=root --password=password < /tmp/db.sql ;
     echo "Database populated"
     rm -rf /tmp/* ;
