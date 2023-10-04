@@ -5,6 +5,7 @@ mysql:
   serverPort: 3306
   nodePort: 30660
   serverProtocol: TCP
-  dbName: chinook
+  dbName: Chinook
   dbUser: chinook
   dbPassword: chinookpassword
+  boundHost: lab
