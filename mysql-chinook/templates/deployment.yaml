@@ -22,9 +22,9 @@ spec:
             - containerPort: {{ .Values.mysql.serverPort }}
               name: {{ .Chart.Name }}-p
           command: ["bash", "-c"]
-          args: ["/mnt/script_1.sh"]
+          args: ["/bin/script_1.sh"]
           volumeMounts:
-            - mountPath: "/mnt/"
+            - mountPath: "/bin/"
               readOnly: false
               name: script-volume-1
           env:
