@@ -15,5 +15,4 @@ spec:
       targetPort: {{ .Values.mysql.serverPort }}
       nodePort: {{ .Values.mysql.nodePort }}
   type: LoadBalancer
-  nodeSelector:
-    kubernetes.io/hostname: "{{ .Values.mysql.boundHost }}"
+  nodeName: "{{ .Values.mysql.boundHost }}"
