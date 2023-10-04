@@ -20,6 +20,7 @@ data:
     export MYSQL_PID=$!
     echo "${MYSQL_PID}"
 
+    sleep 5;
     curl -fsSL \
         -o "/tmp/db.sql" \
         "https://raw.githubusercontent.com/lerocha/chinook-database/master/ChinookDatabase/DataSources/Chinook_MySql.sql" ;
