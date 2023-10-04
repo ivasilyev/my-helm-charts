@@ -22,4 +22,13 @@ helm install "mysql-chinook" "${CHART}"
 
 kubectl get pods
 kubectl get services
+
+echo "Access IP address: $(
+    kubectl describe pod "$(
+        kubectl get pods \
+        | grep --only-matching 'mysql-chinook-deployment[^ \t]*'
+    )" \
+    | grep 'Node:' \
+    | grep --only-matching '[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*'
+)"
 ```
