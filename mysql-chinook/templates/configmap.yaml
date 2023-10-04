@@ -1,4 +1,26 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-chinook-sql
+  name: {{ .Chart.Name }}-configmap
+data:
+  script.sh: |
+    #!/bin/bash
+    cat <<EOF | tee /tmp/reset.sql
+    FLUSH PRIVILEGES ;
+    ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' ;
+    EOF
+    ;
+    cat /tmp/reset.sql ;
+    mysqld --initialize --init-file=/tmp/reset.sql ;
+    echo "Database initialized" ;
+
+    mysqld --port=3306 &
+
+    curl -fsSL \
+        -o /tmp/db.sql \
+        https://raw.githubusercontent.com/lerocha/chinook-database/master/ChinookDatabase/DataSources/Chinook_MySql.sql ;
+    echo "Population script downloaded"
+
+    mysql --user=root --password=password < /tmp/db.sql ;
+    echo "Database populated"
+    rm -rf /tmp/* ;

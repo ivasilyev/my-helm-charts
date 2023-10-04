@@ -21,25 +21,12 @@ spec:
           ports:
             - containerPort: {{ .Values.mysql.serverPort }}
               name: {{ .Chart.Name }}-p
-          command: [
-              "bash",
-              "-c",
-              "
-              cat <<EOF | tee /tmp/reset.sql
-              FLUSH PRIVILEGES ;
-              ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' ;
-              EOF;
-
-              mysqld --initialize --init-file=/tmp/reset.sql ;
-              mysqld --port=3306 &
-
-              curl -fsSL \
-                  -o /tmp/db.sql \
-                  https://raw.githubusercontent.com/lerocha/chinook-database/master/ChinookDatabase/DataSources/Chinook_MySql.sql ;
-
-              mysql --user=root --password=password < /tmp/db.sql ;
-              "
-          ]
+          command: ["bash", "-c"]
+          args: ["/tmp/script.sh"]
+          volumeMounts:
+            - mountPath: "/tmp/"
+              readOnly: false
+              name: script-volume-1
           env:
             - name: MYSQL_TCP_PORT
               value: "{{ .Values.mysql.serverPort }}"
@@ -51,3 +38,8 @@ spec:
               value: {{ .Values.mysql.dbPassword }}
             - name: MYSQL_DATABASE
               value: {{ .Values.mysql.dbName }}
+      volumes:
+        - name: script-volume-1
+          configMap:
+            defaultMode: 0700
+            name: {{ .Chart.Name }}-configmap
