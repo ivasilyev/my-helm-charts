@@ -10,6 +10,7 @@ data:
     cat <<EOF | tee "/tmp/reset.sql"
     FLUSH PRIVILEGES ;
     ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' ;
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION ;
     EOF
 
     rm -rf /var/lib/mysql/* ;
@@ -18,7 +19,7 @@ data:
 
     mysqld --port=3306 &
     export MYSQL_PID=$!
-    echo "${MYSQL_PID}"
+    echo "Started MySQL server, PID ${MYSQL_PID}"
 
     sleep 5;
     curl -fsSL \
