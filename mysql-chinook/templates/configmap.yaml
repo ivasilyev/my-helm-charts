@@ -5,23 +5,28 @@ metadata:
 data:
   script-1.sh: |
     #!/usr/bin/bash
-    cat <<EOF > /tmp/reset.sql
+    cat <<EOF | tee "/tmp/reset.sql"
     FLUSH PRIVILEGES ;
     ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' ;
     EOF
 
-    cat /tmp/reset.sql ;
+    rm -rf /var/lib/mysql/* ;
     mysqld --initialize --init-file=/tmp/reset.sql ;
     echo "Database initialized" ;
 
     mysqld --port=3306 &
-    sleep 5 ;
+    export MYSQL_PID=$!
+    echo "${MYSQL_PID}"
 
     curl -fsSL \
-        -o /tmp/db.sql \
-        https://raw.githubusercontent.com/lerocha/chinook-database/master/ChinookDatabase/DataSources/Chinook_MySql.sql ;
-    echo "Population script downloaded"
+        -o "/tmp/db.sql" \
+        "https://raw.githubusercontent.com/lerocha/chinook-database/master/ChinookDatabase/DataSources/Chinook_MySql.sql" ;
+    echo "Population script downloaded" ;
 
     mysql --port=3306 --user=root --password=password < /tmp/db.sql ;
-    echo "Database populated"
+    echo "Database populated" ;
+
     rm -rf /tmp/* ;
+    echo "Cleanup completed" ;
+
+    fg %1;
