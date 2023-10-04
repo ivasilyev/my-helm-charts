@@ -15,4 +15,3 @@ spec:
       targetPort: {{ .Values.mysql.serverPort }}
       nodePort: {{ .Values.mysql.nodePort }}
   type: NodePort
-  nodeName: "{{ .Values.mysql.boundHost }}"
