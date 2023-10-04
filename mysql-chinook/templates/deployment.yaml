@@ -21,11 +21,11 @@ spec:
           ports:
             - containerPort: {{ .Values.mysql.serverPort }}
               name: {{ .Chart.Name }}-p
-          command: ["bash", "-c"]
-          args: ["/bin/script_1.sh"]
+          command: ["/usr/bin/bash"]
+          args: ["/mnt/script_1.sh"]
           volumeMounts:
-            - mountPath: "/bin/"
-              readOnly: false
+            - mountPath: "/mnt/"
+              readOnly: true
               name: script-volume-1
           env:
             - name: MYSQL_TCP_PORT
@@ -41,5 +41,5 @@ spec:
       volumes:
         - name: script-volume-1
           configMap:
-            defaultMode: 0700
+            defaultMode: 0777
             name: {{ .Chart.Name }}-configmap

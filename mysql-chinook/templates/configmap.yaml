@@ -4,12 +4,12 @@ metadata:
   name: {{ .Chart.Name }}-configmap
 data:
   script.sh: |
-    #!/bin/bash
+    #!/usr/bin/bash
     cat <<EOF | tee /tmp/reset.sql
     FLUSH PRIVILEGES ;
     ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' ;
     EOF
-    
+
     cat /tmp/reset.sql ;
     mysqld --initialize --init-file=/tmp/reset.sql ;
     echo "Database initialized" ;
