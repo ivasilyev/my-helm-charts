@@ -9,15 +9,19 @@ data:
 
     cat <<EOF | tee "/tmp/reset.sql"
     FLUSH PRIVILEGES ;
-    ALTER USER 'root'@'%' IDENTIFIED BY 'password' ;
-    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION ;
+    ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' ;
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION ;
+
+    CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}' ;
+    GRANT ALL PRIVILEGES ON *.* TO '${MYSQL_USER}'@'localhost' WITH GRANT OPTION ;
+
     EOF
 
     rm -rf /var/lib/mysql/* ;
     mysqld --initialize --init-file=/tmp/reset.sql ;
     echo "Database initialized" ;
 
-    mysqld --port=3306 &
+    mysqld --port=${MYSQL_TCP_PORT} &
     export MYSQL_PID=$!
     echo "Started MySQL server, PID ${MYSQL_PID}"
 
@@ -27,7 +31,7 @@ data:
         "https://raw.githubusercontent.com/lerocha/chinook-database/master/ChinookDatabase/DataSources/Chinook_MySql.sql" ;
     echo "Population script downloaded" ;
 
-    mysql --port=3306 --user=root --password=password < /tmp/db.sql ;
+    mysql --port=${MYSQL_TCP_PORT} --user=root --password=${MYSQL_ROOT_PASSWORD} < /tmp/db.sql ;
     echo "Database populated" ;
 
     rm -rf /tmp/* ;
