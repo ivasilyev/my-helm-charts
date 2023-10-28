@@ -6,15 +6,13 @@ with the [Chinook database](https://github.com/lerocha/chinook-database).
 ## Setup 
 
 ```shell script
-cd "${HELM_HOME}"
-git clone "https://github.com/ivasilyev/my-helm-charts.git"
-cd my-helm-charts
+cd "${HELM_HOME}my-helm-charts"
+git reset --hard
+git pull
 
 helm list --all
 helm delete "mysql-chinook"
 
-git reset --hard
-git pull
 rm -f *.tgz
 export CHART="$(helm package mysql-chinook | awk '{print $NF}')"
 echo "Install '${CHART}'"
