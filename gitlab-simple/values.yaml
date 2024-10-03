@@ -1,0 +1,137 @@
+# Default values for hello-world-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+labels:
+  app: gitlab-simple-chart-app
+
+replicaCount: 1
+
+image:
+  repository: gitlab/gitlab-ce
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: latest
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# Service configuration
+service:
+  # Use a LoadBalancer to expose the service externally
+  type: LoadBalancer
+  externalIPs:
+    - 10.48.15.251
+  shm_size: 256m
+
+ports:
+  - name: gitlab-http
+    internalTargetPort: 80
+    externalNodePort: 32767
+    externalPort: 80
+  - name: gitlab-https
+    internalTargetPort: 443
+    externalNodePort: 32766
+    externalPort: 443
+  - name: gitlab-ssh
+    internalTargetPort: 22
+    externalNodePort: 32765
+    externalPort: 22
+
+# Ingress configuration
+ingress:
+  enabled: false
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  requests:
+    cpu: 4
+    memory: 4Gi
+  limits:
+    cpu: 6
+    memory: 6Gi
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 90
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts:
+  mount1:
+    name: config
+    enabled: true
+    # The host directory
+    path: /data03/bio/srv/gitlab/config
+    # The directory inside the container
+    mountPath: /etc/gitlab
+  mount2:
+    name: logs
+    enabled: true
+    # The host directory
+    path: /data03/bio/srv/gitlab/logs
+    # The directory inside the container
+    mountPath: /var/log/gitlab
+  mount3:
+    name: data
+    enabled: true
+    # The host directory
+    path: /data03/bio/srv/gitlab/data
+    # The directory inside the container
+    mountPath: /var/opt/gitlab
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+env:
+  MY_KEY: "MY_VALUE"
