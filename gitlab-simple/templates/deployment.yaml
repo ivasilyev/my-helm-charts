@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}
+  name: {{ .Chart.Name }}-deployment
   labels:
     app: {{ .Values.labels.app }}
 spec:
@@ -16,6 +16,13 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
+        env:
+          {{- if .Values.env }}
+            {{- range .Values.env }}
+            - name: {{ .name }}
+              value: {{ .value }}
+            {{- end }}
+          {{- end }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         # Expose multiple ports
         ports:

@@ -4,36 +4,61 @@ A simple Helm chart to deploy the `gitlab/gitlab-ce` app on a cluster and exposi
 the `LoadBalancer` service type.
 
 ```shell script
-mkdir -p /data03/bio/srv/gitlab
-chmod -R 777 /data03/bio/srv/gitlab
-cd /data03/bio/srv/gitlab
-
-mkdir -p config
-mkdir -p data
-mkdir -p logs
+export TOOL_NAME="gitlab"
+export HELM_CHART_NAME="${TOOL_NAME}-simple"
+export HELM_CHART_RELEASE_NAME="${HELM_CHART_NAME}-release"
+export TOOL_DATA_DIR="/data03/bio/srv/${TOOL_NAME}/"
 
 helm uninstall gitlab-simple-release
+sudo rm -rfv "${TOOL_DATA_DIR}"
 
-helm install gitlab-simple-release ./gitlab-simple
+sudo mkdir \
+    --parent \
+    --mode 0777 \
+    --verbose \
+    "${TOOL_DATA_DIR}config" \
+    "${TOOL_DATA_DIR}data" \
+    "${TOOL_DATA_DIR}logs"
 
-helm status gitlab-simple-release
+sudo chmod \
+    --recursive 777 \
+    "${TOOL_DATA_DIR}"
+
+helm install "${HELM_CHART_RELEASE_NAME}" ./"${HELM_CHART_NAME}"
+
+helm describe "${HELM_CHART_RELEASE_NAME}"
+
+helm list --all-namespaces
 
 curl http://10.48.15.251:80  # HTTP 502: Waiting for GitLab to boot
 
-ls /data03/bio/srv/gitlab/data
+ls "${TOOL_DATA_DIR}data"
 
 kubectl get services
 
-kubectl describe service gitlab-simple-chart-service
+kubectl describe service "${HELM_CHART_NAME}-service"
 
-kubectl describe pod "$(
+kubectl get deployments
+
+kubectl describe deployment "${HELM_CHART_NAME}-deployment"
+
+export TOOL_POD="$(
     kubectl get pods \
     | grep \
         --perl-regexp \
         --only-matching \
-        'gitlab-simple-chart[^ ]*'
-)" \
-| grep 'Node'  # node09
+        "${HELM_CHART_NAME}[^ ]*"
+)"
 
-curl http://node09:32767
+kubectl logs \
+    "${TOOL_POD}" \
+    --follow \
+    --since 1m
+
+kubectl describe pod "${TOOL_POD}" \
+| grep 'Node'  # node05
+
+curl http://node05:32767
+
+ssh 10.48.15.251  #  Permission denied (publickey).
 ```

@@ -11,7 +11,7 @@ image:
   repository: gitlab/gitlab-ce
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: 17.3.4-ce.0
 
 imagePullSecrets: []
 nameOverride: ""
@@ -134,4 +134,5 @@ tolerations: []
 affinity: {}
 
 env:
-  MY_KEY: "MY_VALUE"
+  - name: GITLAB_OMNIBUS_CONFIG
+    value: "gitlab_rails['initial_root_password'] = '5iveL!fe'; "
