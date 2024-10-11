@@ -16,9 +16,9 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        env:
-          {{- if .Values.env }}
-            {{- range .Values.env }}
+        environment:
+          {{- if .Values.environment }}
+            {{- range .Values.environment }}
             - name: {{ .name }}
               value: {{ .value }}
             {{- end }}

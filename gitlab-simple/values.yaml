@@ -133,6 +133,6 @@ tolerations: []
 
 affinity: {}
 
-env:
+environment:
   - name: GITLAB_OMNIBUS_CONFIG
-    value: "gitlab_rails['initial_root_password'] = '5iveL!fe'; "
+    value: "gitlab_rails['initial_root_password'] = '5iveL!fe'; letsencrypt['enabled'] = false; "
