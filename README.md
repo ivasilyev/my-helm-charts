@@ -1,10 +1,11 @@
 # my-helm-charts
 My Helm charts
 
-## Setup
+
+## Install Helm
 
 ```shell script
-export HELM_HOME="${HOME}/.helm/"
+export HELM_HOME="${HOME}/.helm"
 echo "export HELM_HOME=\"${HELM_HOME}\"" \
 | tee -a  "${HOME}/.bashrc"
 
@@ -15,6 +16,24 @@ mkdir \
 
 cd "${HELM_HOME}"
 
+export TOOL_SCRIPT="${HELM_HOME}/get_helm.sh"
+
+curl -fsSL \
+    "https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3" \
+    -o "${TOOL_SCRIPT}"
+bash "${TOOL_SCRIPT}"
+``` 
+> ```text
+> helm installed into /usr/local/bin/helm
+> ```
+
+```shell script
+helm --version
+```
+
+## Setup repository
+
+```shell script
 rm -rf "my-helm-charts"
 
 git clone "https://github.com/ivasilyev/my-helm-charts.git"
