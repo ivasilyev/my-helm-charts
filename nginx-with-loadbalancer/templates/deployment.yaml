@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}-{{ .Chart.version }}
+  name: {{ .Chart.Name }}-{{ .Chart.Version }}
   labels:
-    app: {{ .Chart.Name }}-{{ .Chart.version }}
+    app: {{ .Chart.Name }}-{{ .Chart.Version }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}-{{ .Chart.version }}
+      app: {{ .Chart.Name }}-{{ .Chart.Version }}
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}-{{ .Chart.version }}
+        app: {{ .Chart.Name }}-{{ .Chart.Version }}
     spec:
       containers:
         - name: nginx
