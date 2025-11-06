@@ -28,15 +28,22 @@ bash "${TOOL_SCRIPT}"
 > ```
 
 ```shell script
-helm --version
+helm version
 ```
 
 ## Setup repository
 
 ```shell script
+cd "${HELM_HOME}"
 rm -rf "my-helm-charts"
 
 git clone "https://github.com/ivasilyev/my-helm-charts.git"
 
 cd my-helm-charts
+```
+
+## Install a chart
+
+```shell script
+sudo helm install release-name-release-version ./release
 ```
