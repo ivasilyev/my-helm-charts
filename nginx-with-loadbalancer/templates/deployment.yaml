@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "nginx-loadbalancer.fullname" . }}
+  name: {{ .Chart.name }}-{{ .Chart.version }}
   labels:
-    app: {{ include "nginx-loadbalancer.name" . }}
+    app: {{ .Chart.name }}-{{ .Chart.version }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "nginx-loadbalancer.name" . }}
+      app: {{ .Chart.name }}-{{ .Chart.version }}
   template:
     metadata:
       labels:
-        app: {{ include "nginx-loadbalancer.name" . }}
+        app: {{ .Chart.name }}-{{ .Chart.version }}
     spec:
       containers:
         - name: nginx
