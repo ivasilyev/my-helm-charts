@@ -1,0 +1,33 @@
+# values.yaml - default values for the Helm chart
+
+replicaCount: 2
+# Number of Nginx pods to run (two replicas by default).
+
+image:
+  repository: nginx
+  tag: 1.28.0-perl
+  pullPolicy: IfNotPresent
+# The container image for Nginx and pull policy.
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 80
+# The Service type is LoadBalancer, exposing the port.
+
+master:
+  ip: node0  # Set this to your master node's IP or hostname
+# External IP (master) to bind the LoadBalancer. Traffic to this IP:port
+# will be forwarded into the cluster.
+
+# Node scheduling constraints:
+nodeSelector: {}
+# Optional nodeSelector map to restrict scheduling (empty by default).
+
+tolerations: []
+# Optional list of tolerations (empty means we do not tolerate master taints,
+# so pods will not run on tainted masters by default:contentReference[oaicite:2]{index=2}).
+
+affinity: {}
+# Optional affinity rules. We will define required anti-affinity in the
+# template to avoid master nodes.

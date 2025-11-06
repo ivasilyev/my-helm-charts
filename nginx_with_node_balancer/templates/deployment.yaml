@@ -1,0 +1,39 @@
+# templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nginx-loadbalancer.fullname" . }}
+  labels:
+    app: {{ include "nginx-loadbalancer.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "nginx-loadbalancer.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "nginx-loadbalancer.name" . }}
+    spec:
+      containers:
+        - name: nginx
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+      # Node Affinity: require nodes that do NOT have the master role label.
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/master
+                      operator: DoesNotExist
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
+      tolerations:
+        {{ toYaml .Values.tolerations | indent 8 }}
+      {{- end }}
