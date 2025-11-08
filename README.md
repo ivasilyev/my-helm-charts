@@ -45,5 +45,15 @@ cd my-helm-charts
 ## Install a chart
 
 ```shell script
-sudo helm install release-name-release-version ./release
+sudo helm template name ./release
+sudo helm install name ./release --dry-run
+sudo helm install name ./release --dry-run --set key1.key2.key3="value"
+sudo helm install name ./release
+```
+
+## Uninstall a chart
+
+```shell script
+sudo helm template
+sudo helm delete name
 ```

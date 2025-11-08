@@ -10,6 +10,7 @@ image:
 # The container image for Nginx and pull policy.
 
 # The Service type is LoadBalancer, exposing the port.
+# Access URL from the master node like: curl http://127.0.0.1:30080/
 service:
   nodePort: 30080  # The specific port in the 30000-32767 range you want to expose
   port: 80
