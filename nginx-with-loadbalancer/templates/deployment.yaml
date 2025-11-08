@@ -15,12 +15,20 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
+      volumes:
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-configmap
       containers:
         - name: nginx
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.targetPort }}
+          volumeMounts:
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf # Mounts only the nginx.conf key from the ConfigMap
       # Node Affinity: require nodes that do NOT have the master role label.
       affinity:
         nodeAffinity:
