@@ -22,8 +22,6 @@ spec:
             items:
               - key: nginx.conf
                 path: nginx.conf
-              - key: virtualhost.conf
-                path: virtualhost/virtualhost.conf
       containers:
         - name: nginx
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -32,7 +30,7 @@ spec:
           - containerPort: {{ .Values.service.targetPort }}
           volumeMounts:
           - name: nginx-config-volume
-            mountPath: /etc/nginx  # Mount nginx-conf volumn to /etc/nginx
+            mountPath: /etc/nginx  # Mount the volumn to /etc/nginx
             readOnly: true
       # Node Affinity: require nodes that do NOT have the control-plane role label.
       affinity:
