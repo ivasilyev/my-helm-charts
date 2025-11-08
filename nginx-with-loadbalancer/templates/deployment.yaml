@@ -31,9 +31,9 @@ spec:
           ports:
           - containerPort: {{ .Values.service.targetPort }}
           volumeMounts:
-          - mountPath: /etc/nginx  # Mount nginx-conf volumn to /etc/nginx
+          - name: nginx-config-volume
+            mountPath: /etc/nginx  # Mount nginx-conf volumn to /etc/nginx
             readOnly: true
-            name: nginx-conf
       # Node Affinity: require nodes that do NOT have the control-plane role label.
       affinity:
         nodeAffinity:
