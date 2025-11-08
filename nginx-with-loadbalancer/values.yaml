@@ -9,16 +9,12 @@ image:
   pullPolicy: IfNotPresent
 # The container image for Nginx and pull policy.
 
+# The Service type is LoadBalancer, exposing the port.
 service:
   type: LoadBalancer
   port: "80"
   targetPort: "80"
-# The Service type is LoadBalancer, exposing the port.
-
-master:
-  ip: "10.9.8.7"  # Set this to your master node's IP or hostname
-# External IP (master) to bind the LoadBalancer. Traffic to this IP:port
-# will be forwarded into the cluster.
+  nodePort: 30080 # The specific port in the 30000-32767 range you want to expose
 
 # Node scheduling constraints:
 nodeSelector: {}

@@ -28,10 +28,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
           - containerPort: {{ .Values.service.targetPort }}
-          volumeMounts:
-          - name: nginx-config-volume
-            mountPath: /etc/nginx  # Mount the volumn to /etc/nginx
-            readOnly: true
+#          volumeMounts:
+#          - name: nginx-config-volume
+#            mountPath: /etc/nginx  # Mount the volumn to /etc/nginx
+#            readOnly: true
       # Node Affinity: require nodes that do NOT have the control-plane role label.
       affinity:
         nodeAffinity:
