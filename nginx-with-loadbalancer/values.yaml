@@ -5,18 +5,18 @@ replicaCount: 2
 
 image:
   repository: nginx
-  tag: 1.28.0-perl
+  tag: "1.28.0-perl"
   pullPolicy: IfNotPresent
 # The container image for Nginx and pull policy.
 
 service:
   type: LoadBalancer
-  port: 80
-  targetPort: 80
+  port: "80"
+  targetPort: "80"
 # The Service type is LoadBalancer, exposing the port.
 
 master:
-  ip: node0  # Set this to your master node's IP or hostname
+  ip: "node0"  # Set this to your master node's IP or hostname
 # External IP (master) to bind the LoadBalancer. Traffic to this IP:port
 # will be forwarded into the cluster.
 

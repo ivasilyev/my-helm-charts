@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}-{{ .Chart.Version }}
+  name: {{ .Chart.Name }}
   labels:
-    app: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app: {{ .Chart.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}-{{ .Chart.Version }}
+      app: {{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}-{{ .Chart.Version }}
+        app: {{ .Chart.Name }}
     spec:
       containers:
         - name: nginx
@@ -25,10 +25,10 @@ spec:
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-            - nodeSelectorTerms:
-                - matchExpressions:
-                    - key: node-role.kubernetes.io/master
-                      operator: DoesNotExist
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: DoesNotExist
       {{- if .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml .Values.nodeSelector | indent 8 }}
