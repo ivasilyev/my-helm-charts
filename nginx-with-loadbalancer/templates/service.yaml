@@ -12,5 +12,4 @@ spec:
       name: http
   selector:
     app: {{ .Chart.Name }}
-  externalIPs:
-    - {{ .Values.master.ip }}
+  externalTrafficPolicy: Local

@@ -16,7 +16,7 @@ service:
 # The Service type is LoadBalancer, exposing the port.
 
 master:
-  ip: "node0"  # Set this to your master node's IP or hostname
+  ip: "10.9.8.7"  # Set this to your master node's IP or hostname
 # External IP (master) to bind the LoadBalancer. Traffic to this IP:port
 # will be forwarded into the cluster.
 
