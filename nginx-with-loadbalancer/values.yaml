@@ -11,10 +11,10 @@ image:
 
 # The Service type is LoadBalancer, exposing the port.
 service:
+  nodePort: 30080  # The specific port in the 30000-32767 range you want to expose
+  port: 80
+  targetPort: 80
   type: LoadBalancer
-  port: "80"
-  targetPort: "80"
-  nodePort: 30080 # The specific port in the 30000-32767 range you want to expose
 
 # Node scheduling constraints:
 nodeSelector: {}
