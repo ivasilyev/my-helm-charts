@@ -13,9 +13,6 @@ service:
   type: LoadBalancer
 
 volumes:
-  pvName: "{{ .Chart.Name }}-pv"
-  pvcName: "{{ .Chart.Name }}-pvc"
-  claimSize: 10Gi
   hostPath: ""
   targetMountPath: "/opt/ts"
 
@@ -23,10 +20,10 @@ containers:
   main:
     command: ["/usr/bin/torrserver"]
     args:
-    - "--httpauth"
-    - "--port={{ .Values.services.targetPort }}"
-    - "--ip=0.0.0.0"
-    - "--path={{ .Values.services.targetMountPath }}"
+    - --httpauth
+    - --port={{ .Values.services.targetPort }}
+    - --ip=0.0.0.0
+    - --path={{ .Values.services.targetMountPath }}
 
 # Node scheduling constraints:
 nodeSelector: {}

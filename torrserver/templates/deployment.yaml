@@ -18,7 +18,7 @@ spec:
       volumes:
         - name: main-volume
           hostPath:
-            path: {{ .Values.hostPath }}
+            path: {{ .Values.volumes.hostPath }}
             type: DirectoryOrCreate
       containers:
         - name: main
@@ -30,7 +30,7 @@ spec:
           - containerPort: {{ .Values.service.targetPort }}
           volumeMounts:
           - name: main-volume
-            mountPath: {{ .Values.service.targetMountPath }}
+            mountPath: {{ .Values.volumes.targetMountPath }}
             readOnly: false
       # Node Affinity: require nodes that do NOT have the control-plane role label.
       affinity:
