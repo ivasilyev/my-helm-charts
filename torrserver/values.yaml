@@ -1,6 +1,6 @@
 # values.yaml - default values for the Helm chart
 
-replicaCount: 2
+replicaCount: 1  # open /opt/ts/config.db: permission denied
 
 image:
   name: "ghcr.io/yourok/torrserver:MatriX.136"
