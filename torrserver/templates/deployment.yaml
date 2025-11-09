@@ -30,7 +30,7 @@ spec:
           - containerPort: {{ .Values.service.targetPort }}
           volumeMounts:
           - name: main-volume
-            mountPath: {{ .Values.services.targetMountPath }}
+            mountPath: {{ .Values.service.targetMountPath }}
             readOnly: false
       # Node Affinity: require nodes that do NOT have the control-plane role label.
       affinity:
