@@ -51,6 +51,24 @@ sudo helm install name ./release --dry-run --set key1.key2.key3="value"
 sudo helm install name ./release
 ```
 
+## Inspect deployments
+
+```shell script
+sudo kubectl get pods
+sudo kubectl get svc
+
+sudo kubectl describe pod "pod"
+sudo kubectl logs pod "pod"
+
+# Get port
+export TOOL_NAME="name"
+
+sudo kubectl get svc \
+| grep "${TOOL_NAME}" \
+| awk '{ print $5 }' \
+| grep -oP '(?<=:)[0-9]+' 
+```
+
 ## Uninstall a chart
 
 ```shell script
