@@ -22,7 +22,7 @@ spec:
             type: DirectoryOrCreate
       containers:
         - name: main
-          image: {{ .Values.image.name }}
+          image: "{{ .Values.image.name }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: {{ .Values.containers.main.command }}
           args: {{ .Values.containers.main.args }}
