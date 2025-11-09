@@ -24,8 +24,8 @@ spec:
         - name: main
           image: {{ .Values.image.name }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: {{ toYaml .Values.containers.main.command  | indent 10 }}
-          args: {{ toYaml .Values.containers.main.args | indent 10 }}
+          command: {{ toYaml .Values.containers.main.command | nindent 10 }}
+          args: {{ toYaml .Values.containers.main.args | nindent 10 }}
           ports:
           - containerPort: {{ .Values.service.targetPort }}
           volumeMounts:
