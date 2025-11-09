@@ -7,9 +7,9 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  nodePort: 30890
-  port: 8090
-  targetPort: &serviceTargetPort 8090
+  nodePort: "30890"
+  port: "8090"
+  targetPort: &serviceTargetPort "8090"
   type: LoadBalancer
 
 volumes:
