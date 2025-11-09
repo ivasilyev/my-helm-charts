@@ -9,21 +9,21 @@ image:
 service:
   nodePort: 30890
   port: 8090
-  targetPort: 8090
+  &serviceTargetPort targetPort: 8090
   type: LoadBalancer
 
 volumes:
   hostPath: ""
-  targetMountPath: "/opt/ts"
+  &volumesTargetMountPath targetMountPath: "/opt/ts"
 
 containers:
   main:
     command: ["/usr/bin/torrserver"]
     args:
     - --httpauth
-    - --port={{ .Values.services.targetPort }}
+    - --port=*serviceTargetPort
     - --ip=0.0.0.0
-    - --path={{ .Values.services.targetMountPath }}
+    - --path=*volumesTargetMountPath
 
 # Node scheduling constraints:
 nodeSelector: {}
