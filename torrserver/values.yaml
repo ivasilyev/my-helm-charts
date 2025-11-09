@@ -22,12 +22,11 @@ volumes:
 containers:
   main:
     command: ["/usr/bin/torrserver"]
-    args: [
-      "--httpauth",
-      "--port={{ .Values.services.targetPort }}",
-      "--ip=0.0.0.0",
-      "--path={{ .Values.services.targetMountPath }}"
-    ]
+    args:
+    - "--httpauth",
+    - "--port={{ .Values.services.targetPort }}",
+    - "--ip=0.0.0.0",
+    - "--path={{ .Values.services.targetMountPath }}"
 
 # Node scheduling constraints:
 nodeSelector: {}
