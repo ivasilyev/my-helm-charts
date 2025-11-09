@@ -23,9 +23,9 @@ containers:
   main:
     command: ["/usr/bin/torrserver"]
     args:
-    - "--httpauth",
-    - "--port={{ .Values.services.targetPort }}",
-    - "--ip=0.0.0.0",
+    - "--httpauth"
+    - "--port={{ .Values.services.targetPort }}"
+    - "--ip=0.0.0.0"
     - "--path={{ .Values.services.targetMountPath }}"
 
 # Node scheduling constraints:
