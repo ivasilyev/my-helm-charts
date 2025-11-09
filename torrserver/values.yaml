@@ -1,0 +1,42 @@
+# values.yaml - default values for the Helm chart
+
+replicaCount: 2
+
+image:
+  name: "ghcr.io/yourok/torrserver:MatriX.136"
+  pullPolicy: IfNotPresent
+
+services:
+  nodePort: 30890
+  port: 8090
+  targetPort: 8090
+  type: LoadBalancer
+
+volumes:
+  pvName: "{{ .Chart.Name }}-pv"
+  pvcName: "{{ .Chart.Name }}-pvc"
+  claimSize: 10Gi
+  hostPath: ""
+  targetMountPath: "/opt/ts/"
+
+containers:
+  main:
+    command: ["/usr/bin/torrserver"]
+    args: [
+      "--httpauth",
+      "--port={{ .Values.services.targetPort }}",
+      "--ip=0.0.0.0",
+      "--path={{ .Values.services.targetMountPath }}"
+    ]
+
+# Node scheduling constraints:
+nodeSelector: {}
+# Optional nodeSelector map to restrict scheduling (empty by default).
+
+tolerations: []
+# Optional list of tolerations (empty means we do not tolerate master taints,
+# so pods will not run on tainted masters by default:contentReference[oaicite:2]{index=2}).
+
+affinity: {}
+# Optional affinity rules. We will define required anti-affinity in the
+# template to avoid master nodes.

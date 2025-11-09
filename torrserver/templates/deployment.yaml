@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      volumes:
+        - name: main-volume
+          hostPath:
+            path: {{ .Values.hostPath }}
+            type: DirectoryOrCreate
+      containers:
+        - name: main
+          image: {{ .Values.image.name }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: {{ .Values.containers.main.command }}
+          args: {{ .Values.containers.main.args }}
+          ports:
+          - containerPort: {{ .Values.service.targetPort }}
+          volumeMounts:
+          - name: main-volume
+            mountPath: {{ .Values.services.targetMountPath }}
+            readOnly: false
+      # Node Affinity: require nodes that do NOT have the control-plane role label.
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
+      tolerations:
+        {{ toYaml .Values.tolerations | indent 8 }}
+      {{- end }}
